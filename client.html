@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8"/>
+<title>Chat Online</title>
+<style type="text/css">
+body{
+	width: 930px; /* how wide to make your web page */
+	background-color: teal; /* what color to make the background */
+	margin: 0 auto;
+	padding: 0;
+	font:12px/16px Verdana, sans-serif; /* default font */
+}
+div#main{
+	background-color: #FFF;
+	margin: 0;
+	padding: 10px;
+}
+#main .lobby{
+	
+	width: 300px;
+	height: 600px;
+}
+#main  .rooms{
+	position: absolute;
+	right: 170px;
+	top: 58px;
+	width: 500px;
+	height: 600px;
+	}	
+
+#username{
+	position: absolute;
+	right: 260px;
+	top: 25px;
+}
+#logout{
+	position: absolute;
+	right: 170px;
+	top:25px;
+}
+#create_room{
+	position: absolute;
+	right: 260px;
+	top: 40px;
+}
+#lobby_message{
+	position: absolute;
+	top: 80px;
+	}
+#room_message{
+	position: absolute;
+	top: 20px;
+}
+#room_list_table{
+	position: absolute;
+	top: 20px;
+	text-align: center;
+}
+#chatlog{
+	position: absolute;
+	top: 105px;
+	width: 285px;
+	height: 550px;
+	overflow: scroll;	
+}
+
+#chatlog_room{
+	position: absolute;
+	top: 40px;
+	left: 10px;
+	width: 285px;
+	height: 550px;
+	overflow: scroll;	
+}
+#client_list{
+	position: absolute;
+	top: 40px;
+	left: 330px;
+	width: 160px;
+	height: 400px;
+	overflow: scroll;	
+}
+#leaveBtn{
+	position: absolute;
+	top: 20px;
+	left: 450px;
+}
+
+#pvt_message_box{
+	position: absolute;
+	top: 450px;
+	width: 285px;
+	height: 190px;
+}
+
+#privatechatlog{
+	position: absolute;
+	width: 100%;
+	height: 180px;
+	overflow: scroll;
+}
+
+#pvt_start_form{
+	position: absolute;
+	top: 650px;
+}
+
+.dial {
+	display:none 
+}
+.kickBtn{
+	float: right;
+	 
+}
+.banBtn{
+	float: right;
+}
+
+</style>
+
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/start/jquery-ui.css"
+   type="text/css" rel="Stylesheet" /> 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+
+</head>
+<body><div id="main">
+<h1>Chat Online</h1>
+<label id="username">Username</label>
+<button id="logout">Log out</button>
+<button id="create_room" onclick="showCreateRoomDial()">Create Room</button>
+<div class="dial" id="create_room_dial" title="Create A New Chat Room">
+	<label for="room_name_input">Room Name:</label>
+	<input type="text" id="room_name_input" />
+	<br />
+	<div id="pass_check">
+		<label>Password Protected?</label>
+		<input type="checkbox" id="pass_or_not_check" onclick="passCheckClicked()" />
+		<br />
+		<label>Password:</label>
+		<input type="password" id="password_create_input" disabled/>
+	</div>
+	<button onclick="createRoomDial()">Create</button>
+	<button onclick="closeCrRmDial()">Cancel</button>
+</div>
+<fieldset class="lobby">
+	<legend>
+		<h2>Lobby</h2>
+	</legend>
+	<form id="lobby_message">
+		<input type="text" id="message_input" />
+		<button type="button" id="sendPubMsgBtn" onclick="sendPublicMessage()">Send</button>
+	</form>
+	<br />
+	
+	<div id="chatlog">
+
+		
+	</div>
+	
+	<form id="pvt_start_form">
+			<input type="text" id="friend_input" />
+			<button type="button" id="friend_button" onclick="pvtmsgreq()">Private Chat</button>
+	</form>
+	
+	<div id="pvt_message_box" hidden=true>
+		<form id="pvt_message">
+			<input type="text" id="pvt_message_input" />
+			<button type="button" id="sendPvtMsgBtn" onclick="sendPvtMessage()">Send</button>
+			<button type="button" id="endPvtMsgBtn" onclick="endPvtChat()">End Chat</button>
+		</form>
+		<br />
+		<div id="privatechatlog">
+
+		
+		</div>	
+	</div>
+	
+	<div class="dial" id="pvtmsgreqcfm">
+		<p id="pvtmsgreqcfmfn"></p>
+		<p> wants to chat with you.</p>
+		<br />
+		<button type="button" onclick="pvtmsgreqcfmyes()" >YES</button>
+		<button type="button" onclick="pvtmsgreqcfmno()" >NO</button>
+	</div>
+		
+	
+</fieldset>	
+
+
+<fieldset class="rooms">
+	<legend>
+		<h2 id="room_display_name">Rooms</h2>
+	</legend>
+	<div id="room_list"></div>
+	<div id="inside_room">
+		
+	</div>
+	
+	
+</fieldset>
+	
+
+<!-- CONTENT HERE -->
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/scripts/delete_dom.js"></script>
+<script type="text/javascript" src="/scripts/chatroom.io.js"></script>
+
+</div></body>
+</html>
